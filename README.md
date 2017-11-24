@@ -25,7 +25,7 @@ A jQuery for web audio. This is just a proof of concept.
 ### Note & Pitch
 
 ### Create AudioNode
-To create an Oscillator with an id osc
+To create an `OscillatorNode` with an id `osc`.
 ```js
 var o1 = wave('oscillator#osc', {
   frequency: 750
@@ -42,24 +42,27 @@ o1 === o3 // true
 ```
 
 ### Connect from source to destination
-To connect source with other AudioNode to destination
+Connecting source with other AudioNode to destination.
 ```js
 wave('source#s', { buffer }, audioContext)
-.conenct('analyser#a')
 .conenct('oscillator#main', { f: 750 })
 .conenct('gain#g', { gain: 10 })
 .conenct('filter#f', { type: 'lowshelf', f: 1000 })
+.conenct('analyser#a')
 .start('#main', currentTime + 1)
 .destination();
 ```
 
 ### Listen on events
+Adding handler for event `onended` on the oscillator.
 ```js
-wave('oscillator#osc').on('ended', (e) => console.log(e));
+wave('oscillator#osc')
+.on('ended', (e) => console.log(e));
 ```
 
 ### Splitter and Merger
 ```js
+// in draft
 wave('bufferSource#bs', { buffer }, audioContext)
 .conenct('splitter#s', 2)
 .conenct('gain#g', { gain: 0.5 }, '#s1')
@@ -74,6 +77,7 @@ destination()
 
 ### Convert to Mono
 ```js
+// in draft
 wave('source#s', { buffer }).mono()
 ```
 
