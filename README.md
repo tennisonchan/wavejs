@@ -83,8 +83,7 @@ wave('source#s', { buffer }).mono()
 
 ### Get User Media
 ```js
-let constraints = { audio: true };
-let stream = wave.getUserMedia(constraints);
+let stream = wave.getUserMedia({ audio: true });
 
 wave('mediaStreamSource#mss', stream)
 .destination();
@@ -92,6 +91,8 @@ wave('mediaStreamSource#mss', stream)
 
 ### Media recoder
 ```js
+let stream = wave.getUserMedia({ audio: true });
+
 wave.record(stream)
 .on('dataavailable', () => {})
 .on('stop', () => {})
