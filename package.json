@@ -1,0 +1,31 @@
+{
+  "name": "wave",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/wave.js",
+  "scripts": {
+    "build": "npm run build-browser",
+    "build-browser": "browserify src/*.js > dist/wave.js -t babelify --presets env",
+    "watch": "watchify src/*.js -o dist/wave.js -dv",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tennison Chan<tennison.chan+gh@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^8.0.0"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "env"
+          ]
+        }
+      ]
+    ]
+  }
+}
