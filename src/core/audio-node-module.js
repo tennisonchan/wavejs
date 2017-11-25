@@ -1,12 +1,13 @@
 define([], function() {
 
+  var nodeTable = {}
+
   return {
-    nodeTable: {},
     set: function (id, node) {
-      this.nodeTable[id] = node;
+      nodeTable[id] = node;
     },
     get: function (id) {
-      return this.nodeTable[id] || null;
+      return nodeTable[id] || null;
     }
   };
 

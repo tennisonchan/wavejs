@@ -2,7 +2,7 @@ define([
   '../core'
 ], function(wave) {
 
-  wave.extend({
+  wave.fn.extend({
     convertToMono: function(input) {
       var splitter = this.context.createChannelSplitter(2);
       var merger = this.context.createChannelMerger(2);

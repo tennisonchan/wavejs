@@ -44,7 +44,7 @@ o1 === o3 // true
 ### Connect from source to destination
 Connecting source with other AudioNode to destination.
 ```js
-wave('source#s', { buffer }, audioContext)
+wave('source#s', { buffer })
 .conenct('oscillator#main', { f: 750 })
 .conenct('gain#g', { gain: 10 })
 .conenct('filter#f', { type: 'lowshelf', f: 1000 })
@@ -63,7 +63,7 @@ wave('oscillator#osc')
 ### Splitter and Merger
 ```js
 // in draft
-wave('bufferSource#bs', { buffer }, audioContext)
+wave('bufferSource#bs', { buffer })
 .conenct('splitter#s', 2)
 .conenct('gain#g', { gain: 0.5 }, '#s1')
 .

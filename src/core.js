@@ -1,6 +1,9 @@
-define([], function() {
+define([
+  './var/classToType',
+  './core/var/audio-context'
+], function(classToType, AudioContext) {
 
-  wave.context = new (window.AudioContext || window.webkitAudioContext)();
+  wave.context = new AudioContext();
 
   function wave (selector, context) {
     return new wave.fn.init(selector, context);
@@ -19,12 +22,14 @@ define([], function() {
     },
 
     connect: function (selector, context) {
-      var lastNode = this.last();
+      var lastNode = this.get(-1);
       var node;
       if (lastNode) {
         node = this.constructor(selector, context || {});
 
-        lastNode.get(0).connect(node.get(0));
+        if(wave.isFunction(lastNode.connect)) {
+          lastNode.connect(node.get(0));
+        }
         this.push(node.get(0));
       }
 
@@ -108,6 +113,7 @@ define([], function() {
 
       return this;
     },
+
     splice: function () {
       return Array.prototype.splice;
     },
@@ -186,7 +192,31 @@ define([], function() {
   };
 
   wave.extend({
-    merge: function(first, second) {
+    type: function (obj) {
+      if (obj == null) {
+        return obj + "";
+      }
+
+      // Support: Android <=2.3 only (functionish RegExp)
+      return typeof obj === "object" || typeof obj === "function" ?
+        classToType[({}).toString.call(obj)] || "object" :
+        typeof obj;
+    },
+    isFunction: function (obj) {
+      return typeof obj === "function" && typeof obj.nodeType !== "number";
+    },
+    isArrayLike: function (obj) {
+      var length = !!obj && "length" in obj && obj.length,
+        type = wave.type(obj);
+
+      if (wave.isFunction(obj)) {
+        return false;
+      }
+
+      return type === "array" || length === 0 ||
+        typeof length === "number" && length > 0 && (length - 1) in obj;
+    },
+    merge: function (first, second) {
       var len = +second.length,
         j = 0,
         i = first.length;
@@ -204,12 +234,12 @@ define([], function() {
 
       if (arr != null) {
         if (isArrayLike(Object(arr))) {
-          jQuery.merge(ret,
+          wave.merge(ret,
             typeof arr === "string" ?
             [arr] : arr
           );
         } else {
-          push.call(ret, arr);
+          Array.prototype.push.call(ret, arr);
         }
       }
 
