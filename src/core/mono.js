@@ -3,7 +3,7 @@ define([
 ], function(wave) {
 
   wave.fn.extend({
-    convertToMono: function(input) {
+    toMono: function(input) {
       var splitter = this.context.createChannelSplitter(2);
       var merger = this.context.createChannelMerger(2);
 

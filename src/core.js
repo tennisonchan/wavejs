@@ -1,7 +1,7 @@
 define([
-  './var/classToType',
+  './core/var/classToType',
   './core/var/audio-context'
-], function(classToType, AudioContext) {
+], function(classToType, AudioContext, WaveCollection) {
 
   wave.context = new AudioContext();
 
@@ -15,59 +15,10 @@ define([
 
     context: wave.context,
 
-    start: function (time) {
-      this.get(0).start(time);
+    connect: function(selector) {
+      this[this.length - 1].connect(selector);
 
       return this;
-    },
-
-    connect: function (selector, context) {
-      var lastNode = this.get(-1);
-      var node;
-      if (lastNode) {
-        node = this.constructor(selector, context || {});
-
-        if(wave.isFunction(lastNode.connect)) {
-          lastNode.connect(node.get(0));
-        }
-        this.push(node.get(0));
-      }
-
-      return this;
-    },
-
-    disconnect: function (node) {
-      var args = [].slice.call(arguments, 1);
-      var index = this.indexOf(node);
-
-      if (index !== -1) {
-        node.disconnect.apply(node, args);
-        this.splice(index, 1);
-      }
-
-      return this;
-    },
-
-    destination: function () {
-      var lastNode = this.last();
-      if (lastNode) {
-        lastNode.get(0).connect(this.context.destination);
-      } else {
-        console.error('No AudioNode connect to output.');
-      }
-
-      return this;
-    },
-
-    attr: function (node, attrs) {
-      for (let param in attrs) {
-        let value = attrs[param];
-        if (node[param] instanceof AudioParam) {
-          node[param].value = value;
-        } else {
-          node[param] = value;
-        }
-      }
     },
 
     last: function () {
@@ -109,7 +60,7 @@ define([
       [].slice.call(arguments).forEach((arg) => {
         this[this.length] = arg;
         this.length++;
-      })
+      });
 
       return this;
     },
@@ -233,7 +184,7 @@ define([
       var ret = results || [];
 
       if (arr != null) {
-        if (isArrayLike(Object(arr))) {
+        if (wave.isArrayLike(Object(arr))) {
           wave.merge(ret,
             typeof arr === "string" ?
             [arr] : arr

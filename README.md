@@ -1,4 +1,4 @@
-# Wave
+# WaveJS
 A jQuery for web audio. This is just a proof of concept.
 
 ## Goal
@@ -78,7 +78,7 @@ destination()
 ### Convert to Mono
 ```js
 // in draft
-wave('source#s', { buffer }).mono()
+wave('source#s', { buffer }).toMono()
 ```
 
 ### Get User Media
